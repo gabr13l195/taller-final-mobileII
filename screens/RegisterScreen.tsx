@@ -13,31 +13,26 @@ export default function RegisterScreen({ navigation }: any) {
     const [cedula, setCedula] = useState('');
 
     function register() {
-        // Verificar que todos los campos estén completos
         if (!correo || !contraseña || !nombre || !edad || !ciudad || !cedula) {
             Alert.alert('Error', 'Por favor, llena todos los campos.');
             return;
         }
 
-        // Verificar que el correo tenga un formato válido
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         if (!emailRegex.test(correo)) {
             Alert.alert('Error', 'Correo electrónico inválido.');
             return;
         }
 
-        // Verificar que la edad esté entre 1 y 100
         const edadNum = parseInt(edad, 10);
         if (isNaN(edadNum) || edadNum < 1 || edadNum > 100) {
             Alert.alert('Error', 'La edad debe ser un número entre 1 y 100.');
             return;
         }
 
-        // Crear un nuevo usuario con correo y contraseña
         createUserWithEmailAndPassword(auth, correo, contraseña)
             .then((userCredential) => {
                 const user = userCredential.user;
-                // Crear un nuevo usuario en la base de datos
                 const usuariosRef = ref(db, 'usuarios/' + cedula);
                 set(usuariosRef, {
                     nombre,
@@ -67,24 +62,16 @@ export default function RegisterScreen({ navigation }: any) {
             <Text style={styles.title}>Registro</Text>
             <TextInput
                 style={styles.input}
-                placeholder="Correo electrónico"
-                onChangeText={(texto) => setCorreo(texto)}
-                value={correo}
-                keyboardType="email-address"
-                autoCapitalize="none"
-            />
-            <TextInput
-                style={styles.input}
-                placeholder="Contraseña"
-                onChangeText={(texto) => setContraseña(texto)}
-                value={contraseña}
-                secureTextEntry
-            />
-            <TextInput
-                style={styles.input}
                 placeholder="Nombre"
                 onChangeText={(texto) => setNombre(texto)}
                 value={nombre}
+            />
+            <TextInput
+                style={styles.input}
+                placeholder="Cédula"
+                onChangeText={(texto) => setCedula(texto)}
+                value={cedula}
+                keyboardType="numeric"
             />
             <TextInput
                 style={styles.input}
@@ -98,15 +85,25 @@ export default function RegisterScreen({ navigation }: any) {
                 placeholder="Ciudad"
                 onChangeText={(texto) => setCiudad(texto)}
                 value={ciudad}
+
             />
             <TextInput
                 style={styles.input}
-                placeholder="Cédula"
-                onChangeText={(texto) => setCedula(texto)}
-                value={cedula}
-                keyboardType="numeric"
+                placeholder="Correo electrónico"
+                onChangeText={(texto) => setCorreo(texto)}
+                value={correo}
+                keyboardType="email-address"
+                autoCapitalize="none"
             />
-            <Button title="Registrar" onPress={register} />
+            <TextInput
+                style={styles.input}
+                placeholder="Contraseña"
+                onChangeText={(texto) => setContraseña(texto)}
+                value={contraseña}
+                secureTextEntry
+            />
+
+            <Button title="Registrar" onPress={register} color={"#153E90"}/>
             <TouchableOpacity onPress={() => navigation.navigate('Login')}>
                 <Text style={styles.linkText}>Ya tienes cuenta? Inicia sesión aquí</Text>
             </TouchableOpacity>
@@ -136,7 +133,7 @@ const styles = StyleSheet.create({
         marginVertical: 10,
     },
     linkText: {
-        color: 'blue',
+        color: '#153E90',
         textAlign: 'center',
         marginTop: 20,
     },

@@ -9,16 +9,13 @@ export default function LoginScreen({ navigation }: any) {
     const [contraseña, setContraseña] = useState('');
 
     function login() {
-        // Verificar que ambos campos estén completos
         if (!correo || !contraseña) {
             Alert.alert('Error', 'Por favor, llena todos los campos.');
             return;
         }
 
-        // Intentar iniciar sesión con las credenciales proporcionadas
         signInWithEmailAndPassword(auth, correo, contraseña)
             .then(() => {
-                // Buscar usuario por correo en la base de datos
                 const usuariosRef = ref(db, 'usuarios');
                 get(usuariosRef)
                     .then((snapshot) => {
@@ -29,7 +26,6 @@ export default function LoginScreen({ navigation }: any) {
                             );
 
                             if (cedulaUsuario) {
-                                // Navegar a WelcomeScreen con la cédula
                                 navigation.navigate('Welcome', { cedula: cedulaUsuario });
                             } else {
                                 Alert.alert('Error', 'No se encontró la cédula del usuario.');
@@ -43,7 +39,6 @@ export default function LoginScreen({ navigation }: any) {
                     });
             })
             .catch((error) => {
-                // Verificar el error de Firebase y mostrar mensajes personalizados
                 if (error.code === 'auth/invalid-email') {
                     Alert.alert('Error', 'Correo electrónico inválido.');
                 } else if (error.code === 'auth/wrong-password') {
@@ -72,7 +67,10 @@ export default function LoginScreen({ navigation }: any) {
                 value={contraseña}
                 secureTextEntry
             />
-            <Button title="Login" onPress={login} />
+            <Button 
+                title="Login" 
+                onPress={login}
+                color={"#153E90"}/>
             <TouchableOpacity onPress={() => navigation.navigate('Registro')}>
                 <Text style={styles.linkText}>No tienes cuenta? Regístrate aquí</Text>
             </TouchableOpacity>
@@ -102,7 +100,7 @@ const styles = StyleSheet.create({
         marginVertical: 10,
     },
     linkText: {
-        color: 'blue',
+        color: '#153E90',
         textAlign: 'center',
         marginTop: 20,
     },
