@@ -12,13 +12,16 @@ function MyStack() {
         <Stack.Navigator>
             <Stack.Screen
                 name="Home"
-                component={HomeScreen} />
+                component={HomeScreen} 
+                options={{headerShown:false}}/>
             <Stack.Screen
                 name="Login"
-                component={LoginScreen} />
+                component={LoginScreen} 
+                options={{headerShown:false}}/>
             <Stack.Screen
                 name="Registro"
-                component={RegisterScreen}/>
+                component={RegisterScreen}
+                options={{headerShown:false}}/>
             <Stack.Screen
                 name="Welcome"
                 component={WelcomeScreen} 

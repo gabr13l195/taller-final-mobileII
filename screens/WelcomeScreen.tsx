@@ -1,7 +1,6 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { StyleSheet, View } from 'react-native';
-import { Ionicons, Feather } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import Operaciones from './Operaciones';
 import HistorialScreen from './Historial';
 import Perfil from './Perfil';
@@ -11,11 +10,12 @@ const Tab = createBottomTabNavigator();
 export default function WelcomeScreen({ route }: any) {
     const { cedula } = route.params;
 
-
-
     return (
-
-        <Tab.Navigator>
+        <Tab.Navigator
+            screenOptions={{
+                headerShown: false, // Oculta la barra superior para todas las pestañas
+            }}
+        >
             <Tab.Screen
                 name="Operaciones"
                 component={Operaciones}
@@ -47,17 +47,5 @@ export default function WelcomeScreen({ route }: any) {
                 }}
             />
         </Tab.Navigator>
-
-
     );
 }
-
-const styles = StyleSheet.create({
-    screenContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 20,
-        backgroundColor: '#fff',
-    },
-});
