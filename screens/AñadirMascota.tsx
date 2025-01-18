@@ -255,7 +255,7 @@ const styles = StyleSheet.create({
         color: '#555',
     },
     editButton: {
-        backgroundColor: '#54E346',
+        backgroundColor: '#153E90',
         padding: 10,
         borderRadius: 8,
         alignItems: 'center',
@@ -269,7 +269,7 @@ const styles = StyleSheet.create({
         marginVertical: 5,
     },
     addButton: {
-        backgroundColor: '#54E346',
+        backgroundColor: '#153E90',
         padding: 15,
         borderRadius: 8,
         alignItems: 'center',

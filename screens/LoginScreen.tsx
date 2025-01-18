@@ -1,4 +1,4 @@
-import { Alert, StyleSheet, Text, View, TextInput, TouchableOpacity, KeyboardAvoidingView, ScrollView, Platform } from 'react-native';
+import { Alert, StyleSheet, Text, View, TextInput, TouchableOpacity, KeyboardAvoidingView, ScrollView, Platform, Image } from 'react-native';
 import React, { useState } from 'react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth, db } from '../config/Config';
@@ -56,6 +56,13 @@ export default function LoginScreen({ navigation }: any) {
         >
             <ScrollView contentContainerStyle={styles.scrollContainer} keyboardShouldPersistTaps="handled">
                 <Text style={styles.title}>Iniciar Sesión</Text>
+
+                {/* Imagen añadida */}
+                <Image
+                    source={require('../assets/huella.png')} // Asegúrate de que la ruta sea correcta
+                    style={styles.image}
+                />
+
                 <TextInput
                     style={styles.input}
                     placeholder="Correo electrónico"
@@ -63,6 +70,7 @@ export default function LoginScreen({ navigation }: any) {
                     value={correo}
                     keyboardType="email-address"
                     autoCapitalize="none"
+                    placeholderTextColor="#555"
                 />
                 <TextInput
                     style={styles.input}
@@ -70,6 +78,7 @@ export default function LoginScreen({ navigation }: any) {
                     onChangeText={(texto) => setContraseña(texto)}
                     value={contraseña}
                     secureTextEntry
+                    placeholderTextColor="#555"
                 />
                 <TouchableOpacity
                     style={styles.button}
@@ -99,6 +108,12 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: 'bold',
         textAlign: 'center',
+        marginBottom: 20,
+    },
+    image: {
+        width: 100, // Ajusta el tamaño de la imagen
+        height: 100,
+        alignSelf: 'center',
         marginBottom: 20,
     },
     input: {

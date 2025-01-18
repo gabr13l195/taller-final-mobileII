@@ -7,7 +7,7 @@ export default function HomeScreen({ navigation }: any) {
             <Text style={styles.title}>Welcome</Text>
 
             <Image
-                source={{ uri: 'https://www.flaticon.es/icono-gratis/ahorro-de-dinero_2845703?term=ahorro&page=1&position=3&origin=search&related_id=2845703' }} // Cambia la URL por la ubicación de tu logo
+                source={require('../assets/tienda-animales.png')} // Cambia la URL por la ubicación local de tu imagen
                 style={styles.logo}
             />
 
@@ -69,3 +69,4 @@ const styles = StyleSheet.create({
         bottom: 20,
     },
 });
+
