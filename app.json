@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "wb-prueba",
-    "slug": "wb-prueba",
+    "name": "app-mascotas",
+    "slug": "app-mascotas",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -16,13 +16,24 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.wilmerbetancourt.appmascotas",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       }
     },
-    "web": {
-      "favicon": "./assets/favicon.png"
+    "extra": {
+      "eas": {
+        "projectId": "c54c6833-cf31-46d2-b58e-1e7fd8a4fd0f"
+      }
+    }
+  },
+  "web": {
+    "favicon": "./assets/favicon.png"
+  },
+  "extra": {
+    "eas": {
+      "projectId": "c54c6833-cf31-46d2-b58e-1e7fd8a4fd0f"
     }
   }
 }
