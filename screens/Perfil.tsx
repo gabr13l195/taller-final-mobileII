@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Alert, TouchableOpacity } from 'react-native';
-import { ref, get } from 'firebase/database';
+import { View, Text, StyleSheet, Alert, TouchableOpacity, Modal, TextInput } from 'react-native';
+import { ref, get, update } from 'firebase/database';
 import { auth, db } from '../config/Config';
 
 export default function PerfilScreen({ navigation }: any) {
     const [userData, setUserData] = useState<any>(null);
+    const [isEditing, setIsEditing] = useState(false);
+    const [nombre, setNombre] = useState('');
+    const [edad, setEdad] = useState('');
+    const [ciudad, setCiudad] = useState('');
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -22,10 +26,14 @@ export default function PerfilScreen({ navigation }: any) {
                         );
 
                         if (userCedula) {
-                            setUserData({
+                            const data = {
                                 ...usuarios[userCedula],
                                 cedula: userCedula,
-                            });
+                            };
+                            setUserData(data);
+                            setNombre(data.nombre);
+                            setEdad(data.edad.toString());
+                            setCiudad(data.ciudad);
                         } else {
                             Alert.alert('Error', 'No se encontró información del usuario.');
                         }
@@ -40,6 +48,33 @@ export default function PerfilScreen({ navigation }: any) {
 
         fetchUserData();
     }, []);
+
+    const handleUpdate = async () => {
+        if (!nombre || !edad || !ciudad) {
+            Alert.alert('Error', 'Por favor, llena todos los campos.');
+            return;
+        }
+
+        const edadNumerica = parseInt(edad, 10);
+        if (isNaN(edadNumerica) || edadNumerica < 1 || edadNumerica > 100) {
+            Alert.alert('Error', 'La edad debe ser un número entre 1 y 100.');
+            return;
+        }
+
+        try {
+            const userRef = ref(db, `usuarios/${userData.cedula}`);
+            await update(userRef, {
+                nombre,
+                edad: edadNumerica,
+                ciudad,
+            });
+            Alert.alert('Éxito', 'Perfil actualizado correctamente.');
+            setUserData((prev: any) => ({ ...prev, nombre, edad: edadNumerica, ciudad }));
+            setIsEditing(false);
+        } catch (error) {
+            Alert.alert('Error', 'Hubo un problema al actualizar el perfil.');
+        }
+    };
 
     const handleLogout = () => {
         auth.signOut()
@@ -85,10 +120,49 @@ export default function PerfilScreen({ navigation }: any) {
                 </Text>
             </View>
 
-            {/* Botón de cerrar sesión */}
+            {/* Botón para editar perfil */}
+            <TouchableOpacity style={styles.editButton} onPress={() => setIsEditing(true)}>
+                <Text style={styles.buttonText}>Editar perfil</Text>
+            </TouchableOpacity>
+
+            {/* Botón para cerrar sesión */}
             <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
                 <Text style={styles.buttonText}>Cerrar sesión</Text>
             </TouchableOpacity>
+
+            {/* Modal para editar perfil */}
+            <Modal visible={isEditing} animationType="slide" transparent={true}>
+                <View style={styles.modalContainer}>
+                    <View style={styles.modalContent}>
+                        <Text style={styles.modalTitle}>Editar Perfil</Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Nombre"
+                            value={nombre}
+                            onChangeText={setNombre}
+                        />
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Edad"
+                            value={edad}
+                            onChangeText={setEdad}
+                            keyboardType="numeric"
+                        />
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Ciudad"
+                            value={ciudad}
+                            onChangeText={setCiudad}
+                        />
+                        <TouchableOpacity style={styles.saveButton} onPress={handleUpdate}>
+                            <Text style={styles.buttonText}>Guardar cambios</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.cancelButton} onPress={() => setIsEditing(false)}>
+                            <Text style={styles.buttonText}>Cancelar</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
         </View>
     );
 }
@@ -138,10 +212,58 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         alignItems: 'center',
         width: '100%',
+        marginBottom: 10,
+    },
+    editButton: {
+        backgroundColor: '#54E346',
+        padding: 15,
+        borderRadius: 8,
+        alignItems: 'center',
+        width: '100%',
+        marginBottom: 10,
     },
     buttonText: {
         color: '#fff',
         fontSize: 18,
         fontWeight: 'bold',
+    },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    modalContent: {
+        backgroundColor: '#fff',
+        padding: 20,
+        borderRadius: 10,
+        width: '90%',
+    },
+    modalTitle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 15,
+        textAlign: 'center',
+    },
+    input: {
+        fontSize: 18,
+        borderColor: '#ccc',
+        borderWidth: 1,
+        borderRadius: 8,
+        padding: 10,
+        marginBottom: 10,
+    },
+    saveButton: {
+        backgroundColor: '#54E346',
+        padding: 15,
+        borderRadius: 8,
+        alignItems: 'center',
+        marginBottom: 10,
+    },
+    cancelButton: {
+        backgroundColor: '#FF5C5C',
+        padding: 15,
+        borderRadius: 8,
+        alignItems: 'center',
     },
 });
