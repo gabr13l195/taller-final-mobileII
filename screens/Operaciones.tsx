@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import {View, Text, TextInput, Button, Alert, StyleSheet, KeyboardAvoidingView,ScrollView,} from 'react-native';
+import { View, Text, TextInput, Alert, StyleSheet, KeyboardAvoidingView, ScrollView, Platform, TouchableOpacity } from 'react-native';
 import { auth, db } from '../config/Config';
-import { ref, push, get, update, remove } from 'firebase/database';
+import { ref, push, get, remove } from 'firebase/database';
 
 export default function Operaciones({ navigation }: any) {
     const [idOperacion, setIdOperacion] = useState('');
@@ -19,7 +19,6 @@ export default function Operaciones({ navigation }: any) {
 
         try {
             const userHistorialRef = ref(db, `usuarios/${userId}/historialOperaciones`);
-
             const snapshot = await get(userHistorialRef);
             const historialActual = snapshot.val() || {};
 
@@ -38,7 +37,6 @@ export default function Operaciones({ navigation }: any) {
             };
 
             await push(userHistorialRef, nuevaOperacion);
-
             navigation.navigate('Historial');
             Alert.alert('Éxito', 'Operación guardada correctamente.');
         } catch (error) {
@@ -78,9 +76,22 @@ export default function Operaciones({ navigation }: any) {
         guardarOperacionEnFirebase();
     }
 
+    const handleLogout = () => {
+        auth.signOut()
+            .then(() => {
+                navigation.replace('Login'); // Redirige al inicio de sesión
+            })
+            .catch((error) => {
+                Alert.alert('Error', 'Hubo un problema al cerrar sesión.');
+            });
+    };
+
     return (
-        <KeyboardAvoidingView style={styles.container} behavior="padding">
-            <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <KeyboardAvoidingView
+            style={styles.container}
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        >
+            <ScrollView contentContainerStyle={styles.scrollContainer} keyboardShouldPersistTaps="handled">
                 <Text style={styles.title}>Operaciones</Text>
 
                 <TextInput
@@ -109,10 +120,15 @@ export default function Operaciones({ navigation }: any) {
                     onChangeText={setComentario}
                 />
 
-                <Button 
-                    title="Ejecutar" 
-                    onPress={validarYGuardar} 
-                    color={"#54E346"}/>
+                {/* Botón de ejecutar */}
+                <TouchableOpacity style={styles.button} onPress={validarYGuardar}>
+                    <Text style={styles.buttonText}>Ejecutar</Text>
+                </TouchableOpacity>
+
+                {/* Botón de cerrar sesión */}
+                <TouchableOpacity style={[styles.button, styles.logoutButton]} onPress={handleLogout}>
+                    <Text style={styles.buttonText}>Cerrar sesión</Text>
+                </TouchableOpacity>
             </ScrollView>
         </KeyboardAvoidingView>
     );
@@ -122,12 +138,11 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-        paddingHorizontal: 20,
-        paddingVertical: 10,
     },
     scrollContainer: {
+        flexGrow: 1,
         justifyContent: 'center',
-        alignItems: 'stretch',
+        padding: 20,
     },
     title: {
         fontSize: 24,
@@ -142,5 +157,20 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         padding: 10,
         marginBottom: 10,
+    },
+    button: {
+        backgroundColor: '#54E346', // Verde para el botón principal
+        padding: 15,
+        borderRadius: 8,
+        alignItems: 'center',
+        marginVertical: 10,
+    },
+    logoutButton: {
+        backgroundColor: '#FF5C5C', // Rojo para el botón de logout
+    },
+    buttonText: {
+        color: '#fff',
+        fontSize: 18,
+        fontWeight: 'bold',
     },
 });

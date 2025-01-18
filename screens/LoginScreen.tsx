@@ -1,4 +1,4 @@
-import { Alert, Button, StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { Alert, StyleSheet, Text, View, TextInput, TouchableOpacity, KeyboardAvoidingView, ScrollView, Platform } from 'react-native';
 import React, { useState } from 'react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth, db } from '../config/Config';
@@ -50,40 +50,50 @@ export default function LoginScreen({ navigation }: any) {
     }
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.title}>Iniciar Sesión</Text>
-            <TextInput
-                style={styles.input}
-                placeholder="Correo electrónico"
-                onChangeText={(texto) => setCorreo(texto)}
-                value={correo}
-                keyboardType="email-address"
-                autoCapitalize="none"
-            />
-            <TextInput
-                style={styles.input}
-                placeholder="Contraseña"
-                onChangeText={(texto) => setContraseña(texto)}
-                value={contraseña}
-                secureTextEntry
-            />
-            <Button 
-                title="Login" 
-                onPress={login}
-                color={"#153E90"}/>
-            <TouchableOpacity onPress={() => navigation.navigate('Registro')}>
-                <Text style={styles.linkText}>No tienes cuenta? Regístrate aquí</Text>
-            </TouchableOpacity>
-        </View>
+        <KeyboardAvoidingView
+            style={styles.container}
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        >
+            <ScrollView contentContainerStyle={styles.scrollContainer} keyboardShouldPersistTaps="handled">
+                <Text style={styles.title}>Iniciar Sesión</Text>
+                <TextInput
+                    style={styles.input}
+                    placeholder="Correo electrónico"
+                    onChangeText={(texto) => setCorreo(texto)}
+                    value={correo}
+                    keyboardType="email-address"
+                    autoCapitalize="none"
+                />
+                <TextInput
+                    style={styles.input}
+                    placeholder="Contraseña"
+                    onChangeText={(texto) => setContraseña(texto)}
+                    value={contraseña}
+                    secureTextEntry
+                />
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={login}
+                >
+                    <Text style={styles.buttonText}>Login</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('Registro')}>
+                    <Text style={styles.linkText}>¿No tienes cuenta? Regístrate aquí</Text>
+                </TouchableOpacity>
+            </ScrollView>
+        </KeyboardAvoidingView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: '#fff',
+    },
+    scrollContainer: {
+        flexGrow: 1,
         justifyContent: 'center',
         padding: 20,
-        backgroundColor: '#fff',
     },
     title: {
         fontSize: 24,
@@ -97,7 +107,19 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 8,
         padding: 10,
+        marginBottom: 10,
+    },
+    button: {
+        backgroundColor: '#153E90',
+        padding: 15,
+        borderRadius: 8,
+        alignItems: 'center',
         marginVertical: 10,
+    },
+    buttonText: {
+        color: '#fff',
+        fontSize: 18,
+        fontWeight: 'bold',
     },
     linkText: {
         color: '#153E90',
@@ -105,4 +127,5 @@ const styles = StyleSheet.create({
         marginTop: 20,
     },
 });
+
 

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Alert } from 'react-native';
+import { View, Text, StyleSheet, Alert, TouchableOpacity } from 'react-native';
 import { ref, get } from 'firebase/database';
 import { auth, db } from '../config/Config';
 
-export default function PerfilScreen() {
+export default function PerfilScreen({ navigation }: any) {
     const [userData, setUserData] = useState<any>(null);
 
     useEffect(() => {
@@ -41,6 +41,16 @@ export default function PerfilScreen() {
         fetchUserData();
     }, []);
 
+    const handleLogout = () => {
+        auth.signOut()
+            .then(() => {
+                navigation.replace('Login'); // Redirige al inicio de sesión
+            })
+            .catch((error) => {
+                Alert.alert('Error', 'Hubo un problema al cerrar sesión.');
+            });
+    };
+
     if (!userData) {
         return (
             <View style={styles.container}>
@@ -74,6 +84,11 @@ export default function PerfilScreen() {
                     {userData.cedula}
                 </Text>
             </View>
+
+            {/* Botón de cerrar sesión */}
+            <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+                <Text style={styles.buttonText}>Cerrar sesión</Text>
+            </TouchableOpacity>
         </View>
     );
 }
@@ -102,6 +117,7 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         elevation: 5,
         width: '100%',
+        marginBottom: 20,
     },
     infoText: {
         fontSize: 18,
@@ -115,5 +131,17 @@ const styles = StyleSheet.create({
     loadingText: {
         fontSize: 18,
         color: '#777',
+    },
+    logoutButton: {
+        backgroundColor: '#FF5C5C',
+        padding: 15,
+        borderRadius: 8,
+        alignItems: 'center',
+        width: '100%',
+    },
+    buttonText: {
+        color: '#fff',
+        fontSize: 18,
+        fontWeight: 'bold',
     },
 });
