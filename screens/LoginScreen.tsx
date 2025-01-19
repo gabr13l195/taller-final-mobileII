@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     image: {
-        width: 100, // Ajusta el tamaño de la imagen
+        width: 100, 
         height: 100,
         alignSelf: 'center',
         marginBottom: 20,
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     button: {
-        backgroundColor: '#153E90',
+        backgroundColor: '#1FA85A',
         padding: 15,
         borderRadius: 8,
         alignItems: 'center',

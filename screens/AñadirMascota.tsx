@@ -164,28 +164,28 @@ export default function AñadirMascota() {
                         <TextInput
                             style={styles.input}
                             placeholder="Nombre de la mascota"
-                            placeholderTextColor="#555" // Cambia el color del texto del placeholder
+                            placeholderTextColor="#555" 
                             value={form.nombre}
                             onChangeText={(text) => setForm((prev) => ({ ...prev, nombre: text }))}
                         />
                         <TextInput
                             style={styles.input}
                             placeholder="Especie (ej. Perro, Gato)"
-                            placeholderTextColor="#555" // Cambia el color del texto del placeholder
+                            placeholderTextColor="#555" 
                             value={form.especie}
                             onChangeText={(text) => setForm((prev) => ({ ...prev, especie: text }))}
                         />
                         <TextInput
                             style={styles.input}
                             placeholder="Raza (ej. Labrador, Siames)"
-                            placeholderTextColor="#555" // Cambia el color del texto del placeholder
+                            placeholderTextColor="#555"
                             value={form.raza}
                             onChangeText={(text) => setForm((prev) => ({ ...prev, raza: text }))}
                         />
                         <TextInput
                             style={styles.input}
                             placeholder="Edad en años"
-                            placeholderTextColor="#555" // Cambia el color del texto del placeholder
+                            placeholderTextColor="#555" 
                             value={form.edad}
                             onChangeText={(text) => setForm((prev) => ({ ...prev, edad: text }))}
                             keyboardType="numeric"
@@ -193,14 +193,14 @@ export default function AñadirMascota() {
                         <TextInput
                             style={styles.input}
                             placeholder="Nombre del dueño"
-                            placeholderTextColor="#555" // Cambia el color del texto del placeholder
+                            placeholderTextColor="#555" 
                             value={form.dueño}
                             onChangeText={(text) => setForm((prev) => ({ ...prev, dueño: text }))}
                         />
                         <TextInput
                             style={styles.input}
                             placeholder="Contacto del dueño"
-                            placeholderTextColor="#555" // Cambia el color del texto del placeholder
+                            placeholderTextColor="#555" 
                             value={form.contacto}
                             onChangeText={(text) => setForm((prev) => ({ ...prev, contacto: text }))}
                             keyboardType="phone-pad"
@@ -208,7 +208,7 @@ export default function AñadirMascota() {
                         <TextInput
                             style={[styles.input, styles.historialInput]}
                             placeholder="Historial médico (opcional)"
-                            placeholderTextColor="#555" // Cambia el color del texto del placeholder
+                            placeholderTextColor="#555" 
                             value={form.historial}
                             onChangeText={(text) => setForm((prev) => ({ ...prev, historial: text }))}
                             multiline
@@ -255,7 +255,7 @@ const styles = StyleSheet.create({
         color: '#555',
     },
     editButton: {
-        backgroundColor: '#153E90',
+        backgroundColor: '#1FA85A',
         padding: 10,
         borderRadius: 8,
         alignItems: 'center',
@@ -269,7 +269,7 @@ const styles = StyleSheet.create({
         marginVertical: 5,
     },
     addButton: {
-        backgroundColor: '#153E90',
+        backgroundColor: '#1FA85A',
         padding: 15,
         borderRadius: 8,
         alignItems: 'center',

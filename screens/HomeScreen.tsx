@@ -24,8 +24,6 @@ export default function HomeScreen({ navigation }: any) {
             >
                 <Text style={styles.buttonText}>Registrarse</Text>
             </TouchableOpacity>
-
-            <Text style={styles.footerText}>Desarrollado por Wilmer Betancourt</Text>
         </View>
     );
 }
@@ -52,7 +50,7 @@ const styles = StyleSheet.create({
     button: {
         width: '80%',
         padding: 10,
-        backgroundColor: '#153E90',
+        backgroundColor: '#1FA85A',
         borderRadius: 8,
         marginVertical: 10,
         alignItems: 'center',
