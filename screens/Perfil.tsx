@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 45,
         fontWeight: 'bold',
-        marginBottom: 20,
+        marginBottom: 25,
         color: '#333',
     },
     infoContainer: {
